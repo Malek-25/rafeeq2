@@ -79,6 +79,39 @@ lib/
 
 This project is private and proprietary.
 
+## Team Collaboration
+
+This project uses Git and GitHub for version control. For detailed collaboration instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Quick Start for Team Members
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/rafeeq.git
+   cd rafeeq
+   flutter pub get
+   ```
+
+2. **Create a feature branch:**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Make changes, commit, and push:**
+   ```bash
+   git add .
+   git commit -m "Description of changes"
+   git push origin feature/your-feature-name
+   ```
+
+4. **Create a Pull Request on GitHub** for code review
+
+### Branch Protection
+
+- The `main` branch is protected
+- All changes must go through Pull Requests
+- Code review required before merging
+
 ## Contact
 
 For more information, visit: https://rafeeq.asu.edu.jo
