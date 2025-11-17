@@ -79,22 +79,21 @@ class AppState extends ChangeNotifier {
   }
 
   // Sign up with email, password, and role
+  // Note: This does NOT automatically authenticate the user - they must sign in separately
   Future<bool> signUp(String email, String password, String name, UserRole role) async {
     if (email.isNotEmpty && password.length >= 8 && name.isNotEmpty) {
       try {
         final prefs = await SharedPreferences.getInstance();
-        _isAuthenticated = true;
-        _userEmail = email;
-        _userName = name;
-        _role = role;
         
-        // Save user data
-        await prefs.setBool('isAuthenticated', true);
-        await prefs.setString('userEmail', email);
-        await prefs.setString('userName', name);
+        // Save user data for sign-in (but don't authenticate yet)
         await prefs.setString('userName_$email', name);
-        await prefs.setString('userRole', role == UserRole.provider ? 'provider' : 'student');
         await prefs.setString('userRole_$email', role == UserRole.provider ? 'provider' : 'student');
+        // Note: In a real app, you would hash and save the password securely
+        // For now, we're just storing the user info so they can sign in
+        
+        // Don't set authentication state - user must sign in separately
+        // _isAuthenticated remains false
+        // _userEmail, _userName, _role remain unset until sign-in
         
         notifyListeners();
         return true;

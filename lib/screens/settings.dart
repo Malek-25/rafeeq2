@@ -23,14 +23,23 @@ class SettingsScreen extends StatelessWidget {
           ListTile(title: Text(l10n.general, style: const TextStyle(fontWeight: FontWeight.bold))),
           ListTile(
             title: Text(l10n.language), 
-            subtitle: Text(l10n.switchAppLanguage),
-            trailing: const Icon(Icons.chevron_right), 
-            onTap: ()=>Navigator.pushNamed(context, '/language'),
+            subtitle: Text(locale.locale.languageCode == 'ar' ? 'العربية' : 'English'),
+            trailing: DropdownButton<String>(
+              value: locale.locale.languageCode,
+              underline: const SizedBox(),
+              items: const [
+                DropdownMenuItem(value: 'en', child: Text('English')),
+                DropdownMenuItem(value: 'ar', child: Text('العربية')),
+              ],
+              onChanged: (value) {
+                if (value == 'en') {
+                  locale.setEnglish();
+                } else if (value == 'ar') {
+                  locale.setArabic();
+                }
+              },
+            ),
           ),
-          Row(children: [
-            TextButton(onPressed: ()=>locale.setEnglish(), child: const Text('English')),
-            TextButton(onPressed: ()=>locale.setArabic(), child: const Text('العربية')),
-          ]),
           SwitchListTile(
             title: Text(l10n.darkMode), 
             value: theme.mode==ThemeMode.dark, 

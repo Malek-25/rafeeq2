@@ -20,6 +20,8 @@ import 'screens/splash.dart';
 import 'screens/language_selector.dart';
 import 'screens/home.dart';
 import 'screens/housing_list.dart';
+import 'screens/services_list.dart';
+import 'screens/service_details.dart';
 import 'screens/wallet.dart';
 import 'screens/orders.dart';
 import 'screens/reviews.dart';
@@ -100,6 +102,8 @@ class RafeeqApp extends StatelessWidget {
               '/auth/reset': (_) => const ResetPasswordScreen(),
               '/': (_) => const HomeScreen(),
               '/housing': (_) => const HousingListScreen(),
+              '/services': (_) => const ServicesListScreen(),
+              '/services/details': (_) => const ServiceDetailsScreen(),
               '/wallet': (_) => const WalletScreen(),
               '/orders': (_) => const OrdersScreen(),
               '/reviews': (_) => const ReviewsScreen(),

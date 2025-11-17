@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/utils/app_localizations.dart';
 import '../../core/providers/app_provider.dart';
+import '../../core/theme/theme_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -52,26 +53,32 @@ class _SignInScreenState extends State<SignInScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 40),
-                    // Logo/Icon
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.home_rounded,
-                        size: 48,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      l10n.appName,
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.primary,
+                    // RAFEEQ Logo Image
+                    Center(
+                      child: Container(
+                        width: 160,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 15,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              // Return empty container if logo not found
+                              return const SizedBox.shrink();
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),

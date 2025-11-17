@@ -87,7 +87,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               
               if (context.mounted) {
                 if (success) {
-                  Navigator.pushReplacementNamed(context, '/');
+                  // Show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Account created successfully! Please sign in.'),
+                      backgroundColor: Colors.green,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                  // Redirect to sign-in page
+                  Navigator.pushReplacementNamed(context, '/auth/sign-in');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

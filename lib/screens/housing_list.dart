@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../core/utils/distance_policy.dart';
 import '../core/utils/app_localizations.dart';
+import '../core/providers/app_provider.dart';
 
 class HousingListScreen extends StatelessWidget {
   const HousingListScreen({super.key});
@@ -8,6 +10,7 @@ class HousingListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context) ?? AppLocalizations(const Locale('en'));
+    final appState = context.watch<AppState>();
     final listings = [
       {'title':'Modern Studio near ASU','price':250,'lat':32.0100,'lng':35.8443,'rating':4.6},
       {'title':'2BR Apartment','price':380,'lat':32.0110,'lng':35.8451,'rating':4.3},
@@ -42,11 +45,13 @@ class HousingListScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pushNamed(context, '/provider/add-housing'),
-        icon: const Icon(Icons.add_business),
-        label: Text(l10n.addHousingProvider),
-      ),
+      floatingActionButton: appState.role == UserRole.provider
+          ? FloatingActionButton.extended(
+              onPressed: () => Navigator.pushNamed(context, '/provider/add-housing'),
+              icon: const Icon(Icons.add_business),
+              label: Text(l10n.addHousingProvider),
+            )
+          : null,
     );
   }
 }
