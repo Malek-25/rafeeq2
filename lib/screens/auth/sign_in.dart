@@ -31,13 +31,20 @@ class _SignInScreenState extends State<SignInScreen> {
     final l10n = AppLocalizations.of(context) ?? AppLocalizations(const Locale('en'));
     
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove back button completely
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 0, // Remove the AppBar completely
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              colorScheme.primaryContainer.withOpacity(0.3),
+              ThemeProvider.asuNavy.withOpacity(0.1),
+              colorScheme.surface,
               colorScheme.surface,
             ],
           ),
@@ -56,28 +63,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     // RAFEEQ Logo Image
                     Center(
                       child: Container(
-                        width: 160,
-                        height: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 15,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              // Return empty container if logo not found
-                              return const SizedBox.shrink();
-                            },
-                          ),
+                        width: 180,
+                        height: 180,
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            // Return empty container if logo not found
+                            return const SizedBox.shrink();
+                          },
                         ),
                       ),
                     ),

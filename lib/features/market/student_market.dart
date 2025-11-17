@@ -61,6 +61,9 @@ class _ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+    final isOwner = appState.userEmail == p.sellerEmail;
+    
     return InkWell(
       onTap: () => Navigator.pushNamed(context, '/market/details', arguments: p),
       child: Card(
@@ -86,6 +89,53 @@ class _ProductTile extends StatelessWidget {
               ]),
               const SizedBox(height: 2),
               Row(children: [ const Icon(Icons.location_on_outlined, size: 16), const SizedBox(width: 4), Text(p.location, style: TextStyle(color: Theme.of(context).hintColor)) ]),
+              if (isOwner) ...[
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, size: 20),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/market/add',
+                          arguments: p,
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Delete Product'),
+                            content: const Text('Are you sure you want to delete this item?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cancel'),
+                              ),
+                              FilledButton(
+                                onPressed: () {
+                                  context.read<MarketProvider>().removeProduct(p.id);
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Item deleted')),
+                                  );
+                                },
+                                style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ])),
           ]),
         ),

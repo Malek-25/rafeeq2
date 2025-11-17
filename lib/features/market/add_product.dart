@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../../core/providers/market_provider.dart';
+import '../../core/providers/app_provider.dart';
 import '../../core/models/product.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -20,11 +21,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
   bool negotiable = false;
   final ImagePicker _picker = ImagePicker();
   final List<String> imgs = [];
+  Product? editingProduct; // If editing, this will be set
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      // Check if we're editing an existing product
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Product) {
+        editingProduct = args;
+        title.text = args.title;
+        price.text = args.price.toString();
+        desc.text = args.description;
+        cat = args.category;
+        condition = args.condition;
+        negotiable = args.negotiable;
+        imgs.addAll(args.images);
+        _initialized = true;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Post an item')),
+      appBar: AppBar(title: Text(editingProduct != null ? 'Edit Item' : 'Post an item')),
       body: ListView(padding: const EdgeInsets.all(16), children: [
         Wrap(spacing: 8, children: [
           ...imgs.map((p)=>ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.file(File(p), width: 64, height: 64, fit: BoxFit.cover))).toList(),
@@ -56,11 +80,47 @@ class _AddProductScreenState extends State<AddProductScreen> {
         CheckboxListTile(value: negotiable, onChanged: (v)=>setState(()=>negotiable = v ?? false), title: const Text('Negotiable price')),
         const SizedBox(height: 12),
         FilledButton(onPressed: () {
-          final p = Product(id: DateTime.now().millisecondsSinceEpoch.toString(), title: title.text.trim(), category: cat, price: double.tryParse(price.text) ?? 0, condition: condition, sellerName: 'You', sellerPhone: '+962700000000', sellerRating: 5.0, location: 'ASU Campus', images: imgs, description: desc.text.trim(), negotiable: negotiable);
-          context.read<MarketProvider>().add(p);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item posted')));
+          if (editingProduct != null) {
+            // Update existing product
+            final updatedProduct = Product(
+              id: editingProduct!.id,
+              title: title.text.trim(),
+              category: cat,
+              price: double.tryParse(price.text) ?? 0,
+              condition: condition,
+              sellerName: appState.userName ?? 'You',
+              sellerEmail: appState.userEmail ?? '',
+              sellerPhone: editingProduct!.sellerPhone,
+              sellerRating: editingProduct!.sellerRating,
+              location: editingProduct!.location,
+              images: imgs,
+              description: desc.text.trim(),
+              negotiable: negotiable,
+            );
+            context.read<MarketProvider>().updateProduct(updatedProduct);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item updated')));
+          } else {
+            // Add new product
+            final p = Product(
+              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              title: title.text.trim(),
+              category: cat,
+              price: double.tryParse(price.text) ?? 0,
+              condition: condition,
+              sellerName: appState.userName ?? 'You',
+              sellerEmail: appState.userEmail ?? '',
+              sellerPhone: '+962700000000',
+              sellerRating: 5.0,
+              location: 'ASU Campus',
+              images: imgs,
+              description: desc.text.trim(),
+              negotiable: negotiable,
+            );
+            context.read<MarketProvider>().add(p);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item posted')));
+          }
           Navigator.pop(context);
-        }, child: const Text('Publish')),
+        }, child: Text(editingProduct != null ? 'Update' : 'Publish')),
       ]),
     );
   }

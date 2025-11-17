@@ -5,6 +5,7 @@ class Product {
   final double price;
   final String condition;
   final String sellerName;
+  final String sellerEmail;
   final String sellerPhone;
   final double sellerRating;
   final String location;
@@ -19,6 +20,7 @@ class Product {
     required this.price,
     required this.condition,
     required this.sellerName,
+    required this.sellerEmail,
     required this.sellerPhone,
     required this.sellerRating,
     required this.location,

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/app_config.dart';
 import 'core/providers/app_provider.dart';
 import 'core/providers/market_provider.dart';
+import 'core/providers/housing_provider.dart';
 import 'core/providers/locale_provider.dart';
 import 'core/providers/orders_provider.dart';
 import 'core/providers/chat_provider.dart';
@@ -65,6 +66,7 @@ class RafeeqApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => AppState()),
         ChangeNotifierProvider(create: (_) => MarketProvider()),
+        ChangeNotifierProvider(create: (_) => HousingProvider()),
         ChangeNotifierProvider(create: (_) => OrdersProvider()),
         ChangeNotifierProvider(create: (_) => ChatProvider()),
       ],

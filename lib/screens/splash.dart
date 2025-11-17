@@ -55,8 +55,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     final appState = Provider.of<AppState>(context, listen: false);
     await appState.loadAuthState();
     
-    // Wait a bit for splash screen animation
-    await Future.delayed(const Duration(milliseconds: 2000));
+    // Wait a bit for splash screen animation (longer duration)
+    await Future.delayed(const Duration(milliseconds: 3000));
     
     if (!mounted) return;
     
@@ -70,8 +70,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return PopScope(
+      canPop: false, // Prevent back button on splash screen
+      child: Scaffold(
+        body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -98,28 +100,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       children: [
                         // RAFEEQ Logo Image
                         Container(
-                          width: 200,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 30,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) {
-                                // Return empty container if logo not found
-                                return const SizedBox.shrink();
-                              },
-                            ),
+                          width: 220,
+                          height: 220,
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              // Return empty container if logo not found
+                              return const SizedBox.shrink();
+                            },
                           ),
                         ),
                         const SizedBox(height: 32),
@@ -153,6 +142,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             ),
           ),
         ),
+      ),
       ),
     );
   }

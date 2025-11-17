@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove back button on home screen
         title: Text(
           l10n.appName, 
           style: TextStyle(
@@ -152,7 +153,8 @@ class HomeScreen extends StatelessWidget {
                 if(app.role == UserRole.student) 
                   _HomeTile(title: l10n.studentMarket, icon: Icons.storefront_rounded, route: '/market', color: const Color(0xFF4CAF50)),
                 _HomeTile(title: l10n.laundryCleaning, icon: Icons.local_laundry_service_rounded, route: '/services', color: const Color(0xFFFF9800)),
-                _HomeTile(title: l10n.wallet, icon: Icons.account_balance_wallet_rounded, route: '/wallet', color: const Color(0xFF9C27B0)),
+                if(app.role == UserRole.student)
+                  _HomeTile(title: l10n.wallet, icon: Icons.account_balance_wallet_rounded, route: '/wallet', color: const Color(0xFF9C27B0)),
                 _HomeTile(title: l10n.orders, icon: Icons.receipt_long_rounded, route: '/orders', color: const Color(0xFF3F51B5)),
                 _HomeTile(title: l10n.inbox, icon: Icons.forum_rounded, route: '/chat/inbox', color: const Color(0xFF009688)),
                 _HomeTile(title: l10n.settings, icon: Icons.settings_rounded, route: '/settings', color: const Color(0xFF607D8B)),
