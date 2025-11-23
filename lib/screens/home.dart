@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
+                // Colors.yellow,
                 colorScheme.primary,
                 colorScheme.primary.withOpacity(0.8),
               ],
@@ -44,6 +45,7 @@ class HomeScreen extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
+              // Colors.red,
               colorScheme.primaryContainer.withOpacity(0.4),
               colorScheme.surfaceContainerHighest.withOpacity(0.2),
               colorScheme.surface,
@@ -191,7 +193,7 @@ class _HomeTileState extends State<_HomeTile> with SingleTickerProviderStateMixi
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _elevationAnimation;
-
+// HERE
   @override
   void initState() {
     super.initState();
